@@ -20,7 +20,7 @@ The basic of the protocol is a WebSocket server (called a nostr-relay) that hand
 }
 ```
 
-Events are always signed (using Schnorr sigs) and they contained structured data that can have semantic meanings. A Schnorr type XOnlyPubkeys as defined in [BIP300](https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki#design) (and currently in use with Bitcoin Taproot) are used as "identities" throughout the protocol.
+Events are always signed (using Schnorr sigs) and they contained structured data that can have semantic meanings. A Schnorr type XOnlyPubkeys as defined in [BIP340](https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki#design) (and currently in use with Bitcoin Taproot) are used as "identities" throughout the protocol.
 
 A nostr-client is an APP that can talk with a nostr-relay and can subscribe to any set of events using a [`Subscription Filter`](https://github.com/fiatjaf/nostr/blob/master/nips/01.md#communication-between-clients-and-relays). The filter represents all the set of nostr `Events` that a client is interested in.
 
