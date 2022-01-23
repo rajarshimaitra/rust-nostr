@@ -1,7 +1,7 @@
 # rust-nostr
 
 ## Intro
-A complete suite of nostr Bitcoin libraries that can be used to develop decentralized social media and Bitcoin financial products.
+A complete suite of nostr Bitcoin libraries that can be used to develop Decentralized Social Networks (DSN) with integrated Bitcoin financial products.
 
 If you like the sound of it, check out the [vision](VISION.md) doc for the whole idea.
 
