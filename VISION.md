@@ -58,7 +58,7 @@ And this is where things get messy. If you build your perfect social media today
 
 The examples of Gab and Mastodon clearly show, that just having the code open source is not enough. The building process and designing of the standards have to be open also. Otherwise one ends up with a small team of people, mostly voluntarily working on an activist project, and eventually becoming the "benevolent dictators" of that platform.
 
-Because they have to satisfy real-life design constraints of such platforms, while providing their product at scale, they end up creating a small cohort of a team dedicated to designing the approach of the platform. This makes casual and fun applications using the platform difficult for client devs. At some point, they might as well decide to design their own little protocol, but eventually, they will reach the same roadblock. Nobody wants to voluntarily build on a platform that you designed for a specific niche.
+Because they have to satisfy real-life design constraints of such platforms, while providing their product at scale, they end up creating a small cohort of a team dedicated to designing the approach of the platform. This makes casual and fun applications using the platform difficult for client devs. At some point, they might as well decide to design their little protocol, but eventually, they will reach the same roadblock. Nobody wants to voluntarily build on a platform that you designed for a specific niche.
 
 Also storing data is costly. It takes resource, maintenance, and time for the part of the "server owner". All the people currently hosting a Mastodon instance are doing it voluntarily and users just rely on them for being nice and not shut down the instance. The age-old problem of "creative commons" appears.
 
@@ -106,13 +106,13 @@ Complexities can be customized at the client layer while interoperability is ach
 
 # The Missing Pieces
 
-Once we get to an agreement on what the core lego looks like. The only remaining pieces left are DOS protection, and relay runner incentivization. And thanks to Bitcoin, we can now solve these two problems in one go.
+Once we converge on what the core lego looks like. The remaining pieces are DOS protection, relay incentivization and some ways to communicate nostr subscription data between users.
 
 ### Putting Bitcoin inside Nostr
 
-The next big task is to stop relay spamming and monetization of storage services offered by relays.
+Thanks to Bitcoin, relay incentivization and DOS protection can be solved in one go.
 
-A robust social network cannot be built if its infrastructure rests on a flimsy foundation of "voluntarism". And as we know "if a product is free, you are the product". There should be native integration of these future media platforms into the Bitcoin blockchain.
+A robust social network cannot be built if its infrastructure rests on a flimsy foundation of "voluntarism". And as we know "if a product is free, you are the product". There should be native integration of these future media platforms into Bitcoin.
 
 The one-stop solution to do this is to use [BDK](https://github.com/bitcoindevkit/bdk). A highly performant bitcoin wallet library, flexible enough to handle multiple kinds of bitcoin interfaces and DBs. Added with some new NIPs to define `payment request` and `payment response` Event kinds.
 
@@ -120,31 +120,45 @@ The payment can be either a one-time onchain transaction or a stream of LN payme
 
 This gives a good way for high-maintenance public relays to monetize their service, at the same time protecting them from DOS.
 
-# But Wait, There's More.
+### E2E Encrypted Subscription Sharing
 
-A Nostr relay is just a dump of simple JSON data. Fetched via a `subscription` filter. This allows nostr to be a generic data-sharing platform between clients. With Bitcoin inside, now we are talking about Bitcoin scripts, descriptors, DLC contracts, and other Bitcoin DeFi information, shared via a social media infrastructure.
+Remember, a Nostr relay is just a dump of simple JSON data. Fetched via a `subscription` filter. This allows nostr to be a generic data-sharing platform between clients. With Bitcoin inside, now we are talking about Bitcoin scripts, descriptors, DLC contracts, and other Bitcoin DeFi information, shared via the nostr relay network. But these can be sensitive information, and should not be shared on a public platform in cleartext.
 
-It can be even better. Another out-of-bound protocol can be devised on top of nostr to share e2e "encrypted subscriptions". This allows the possibility for *hidden* social networks of people to selectively open up their posts to particular trusted entities.
+For this, an encrypted nostr subscription sharing mechanism is required. This can be another server facilitating only encrypted subscription data sharing among participants.
+
+This can be achieved by following:
+ - Encrypt the [`subscription` + `relay-address`] using a DH shared secret derived from the pubkey of the intended receiver.
+ - Post the encrypted data along with the pubkey of the recipient to this server.
+ - Recipient client gets notification, downloads and decrypts the data, gets the subscription to fetch the actual data from nostr.
+ - The actual data is also a ciphertext encrypted by the same shared secret so the recipient knows how to decrypt that too.
+
+These servers can be very lightweight as they don't need to store all the historical subscription data. They can regularly clear old data, or even can clear it in real-time when it knows the recipient has downloaded it. This will make them very low cost, and it doesn't need to solve the incentivization problem.
+
+These servers don't need to follow any generic protocol. Can be implemented freely via any design. They just need to have a way to connect to clients and know when to notify them when something relevant to them has come.
+
+They are also censorship-resistant like nostr relay. If one goes down or stops working, anyone can spin up another one. Because they don't have to keep a historic record Switching from one server to another does not affect the overall flow of information.
+
+These servers cannot exploit the data also because all they see is an encrypted blob of randomness, so they do not need to be highly secured.
+
+### The Final Picture
+
+So now combining all of these, Nostr, Bitcoin, and Encrypted Subscription sharing, what we have now is a very powerful and *default private* social network that can share data among participants using some very generic and global protocols.
+
+This allows the possibility for *hidden* social networks of people to selectively open up their posts to particular trusted entities.
 
 These posts can be DLC contracts, descriptors describing multisig between many parties, DLC oracle publishing only to subscribed members, and a lot more.
 
-Because Nostr uses pubkeys for identities, each such post can be created via different pubkeys, so they don't get caught in other people's subscriptions of your events. Each pubkey can have a user given Nym. Nyms will be as common as nicknames.
+In this framework, the basic unit of "Identity" is a pubkey. Pubkeys are analogous to aliases in the real world. Any person can have any number of aliases. If one alias gets compromised, they can quickly create another one, just like we create a new bitcoin address for every payment.
 
-A network of *web-of-trust* can be built on top of these encrypted and hidden nostr posts, where people can selectively follow other nyms that their trusted nyms are already following, and publishers can selectively open up posts to their specific network of trust.
+Using pubkeys as aliases it's then possible to selectively open up to your own private trusted network. You can have one pubkey associated with your global Alias (your Twitter handle that everyone knows), and then have any number of parallel aliases to only communicate among specific groups of people, or use a specific app.
 
-Communication can happen via nostr text content, which is an encrypted blob of data.
-The subscription for that data, along with the relay address to fetch it from, is also encrypted and shared among intended participants using any out-off-bound protocol.
-A shared decryption key can be derived using DH key exchange again via some custom out-off-bound protocol among clients.
+Data related to all these pubkeys will remain completely unrelated and can be distributed across multiple nostr relays.
 
-What the above describes is a privacy-focused decentralized platform to share any random data among clients, including p2p trade ads, betting with DLC, or anything else. The relays don't have any visibility on the data they are storing. And clients are smart enough to make sense of this data and act on it.
-
-This is more than just "Social Media". It's a "Social Network" of people coordinating with each other just by agreeing on some basic protocol. `Nostr` and `Bitcoin`. Thus the name "Distributed Social Networks" (DSN).
-
-In this model what we end up with is:
- - A Highly interoperable stupid relay protocol.
- - A flexible extension model freely deployed by clients.
+The final summarised model is:
+ - A Highly interoperable and extremely simple relay protocol, nostr.
+ - A flexible framework for adding new relay features using `optional` upgrades that relays can opt-in.
+ - A encrypted subscription sharing mechanism to pass around nostr subscriptions.
  - Bitcoin native integration to facilitate the "internet of money" and DOS protection at the same time.
- - Strong privacy guaranteed via e2e encryption of subscription data and out-off-bound custom protocols.
  - A decentralized publication layer for clients to publish public as well as private content.
  - Client-side complexity to interpret these contents and have native financial contract generation UI using the powers of Bitcoin.
 
@@ -158,7 +172,7 @@ These relays should be efficient, robust, rigorously peer-reviewed in open publi
 
 If this thing needs to extend out into professional services that people can deploy in their servers, and serious products are built out of it, we need more than just hobby codes and example apps.
 
-The path ahead lies in complex design decisions (with simple elements) and keeping in mind these whole set of ideas from the very start is important to guide what a Nostr infrastructure in rust might look like.
+What's needed is not another cool nostr app, but a well thought out and designed infrastructure library that can be used by shadowy super coders to build the next cool nostr app with "Bitcoin inside".
 
 # Introducing rust-nostr
 
@@ -169,19 +183,24 @@ The entire structure is still TBD, but a rough outline of how rust-nostr will lo
  - A binary crate producing `nostrd`. A lightweight and efficient rust implementation of Nostr-Relay. `nostrd` will come with a set of supported NIPs. Basic NIPs can be included by default. Extra NIPs can be specified at build time be via feature flags.
  - A `nostr-cli` that can be used as a manager of `nostrd` on the server-side. It can also talk the nostr protocol with any other relay and can be used as a cli nostr client. Maintenance access can be provided to a relay via basic or cookie authentication.
  - A rich `nostr-API` library. Included in the project, that can be used as an easy dev tool for devs to build their nostr clients. These APIs can then be exposed via ffi to other languages and will give developers a one-stop tool to build their cool Nostr clients.
-  - Finally, a `Bitcoin` layer using BDK to facilitate the "money interface".
- - All these components will be using each other and will be maintaining thorough integration checks in the project pipeline to make sure they are compatible with each other as well as compatible with the global `nostr` and `Bitcoin` protocol.
- - An out-off-bound e2e secret sharing protocol for clients to talk to each other to share encrypted subscription data and relay references.
+ - `portal` is an encrypted nostr subscription sharing server.
 
+All of them (except `portal`) will have native Bitcoin + Lightning integration in them via BDK and LDK.
 
- Once all these are laid out, it's then possible to use a `rust-nostr` suit to come up with all sorts of more complex clients doing Bitcoin Defi among each other.
+To ensure all parts of the infrastructure are always in sync with each other they will have rigorous integration tests in the project's CI pipeline.
 
-# Concluding **Remarks**
-So far this just a primitive idea, and I don't even know what the possible unknown challenges are. I expect many. This is my attempt to chalk down a way forward to reach both Bitcoin Defi and DSNs to solve each other's problems, using a very dumb protocol, and highly intelligent clients.
+Once all these are laid out, it's then possible to use a `rust-nostr` suit to come up with all sorts of more complex clients doing Bitcoin Defi among each other.
 
-Over time I will try to sketch up a basic design of `nostrd`. The idea needs more polishing and a thorough examination of available techs and possible different approaches.
+# Concluding Remarks
+So far this is just a primitive idea, and I don't even know what the possible unknown challenges are. I expect many. As they say "the devil is in the details". This might seem like a very ambitious project, but it's not.
 
-If you happen to care about this problem and feel like lending a hand, or if you have any suggestions or comments in general, hit me up at @rajarshimaitra on Twitter. DM's open.
+By limiting the scope of the project to provide very specific building tools, this is pretty much achievable by a few motivated rust devs laying it out. Rust is also the most suitable language to build this in because it lets us strictly define the protocol rules at the compiler level so it reduces the room to go wrong, while also producing very concise and easy to audit code.
+
+By not trying to make "a product" and only solving for the lego pieces, I think this is well within reach.
+
+This project can then pave the way for Bitcoin entrepreneurs to come up with all sorts of applications. The limit in application space is only limited by imagination.
+
+So if you happen to care about this problem and feel like lending a hand, or if you have any suggestions or comments in general, hit me up at @rajarshimaitra on Twitter. DM's open.
 
 
 
