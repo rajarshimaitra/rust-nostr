@@ -84,7 +84,7 @@ An `Events` can be thought of as a generic data store. There is no restriction o
 
 As odd as might seem, such a simple protocol is getting more dev attention than many of the "well designed" existing alternate social media.
 
-The project already has many [example implementation](https://github.com/fiatjaf/tonostr#small-list-of-software-that-implement-the-nostr-protocol-somehow) and the list is growing every day.
+The project already got a ton of dev interest and a rich ecosystem of [libraries, apps, relays](https://github.com/aljazceru/awesome-nostr) have been developed by the community in almost no time. And the list is growing every day.
 
 The Telegram chat has around 400 members and growing every day.
 
@@ -183,7 +183,7 @@ The entire structure is still TBD, but a rough outline of how rust-nostr will lo
  - A binary crate producing `nostrd`. A lightweight and efficient rust implementation of Nostr-Relay. `nostrd` will come with a set of supported NIPs. Basic NIPs can be included by default. Extra NIPs can be specified at build time be via feature flags.
  - A `nostr-cli` that can be used as a manager of `nostrd` on the server-side. It can also talk the nostr protocol with any other relay and can be used as a cli nostr client. Maintenance access can be provided to a relay via basic or cookie authentication.
  - A rich `nostr-API` library. Included in the project, that can be used as an easy dev tool for devs to build their nostr clients. These APIs can then be exposed via ffi to other languages and will give developers a one-stop tool to build their cool Nostr clients.
- - `portal` is an encrypted nostr subscription sharing server.
+ - `portal` is an encrypted nostr subscription sharing server. Specification of `portal` is not part of the project as it is already a solved problem. This has been well understood in cryptographic literatures and lots of candidate implementation exists in open source. The Signal App itself is an example of a portal, although very difficult to use for this use case. A local team in India have been focused on this problem for specific use case of facilitating p2p Bitcoin trades called [CypherPost](https://github.com/i5hi/cypherpost), which is already a very fitting `portal` implementation. Eventually a stripped down version of a candidate implementation in rust will be added to the project repository. But people are free to develop and use their own portals and still be compatible with rest of the network.
 
 All of them (except `portal`) will have native Bitcoin + Lightning integration in them via BDK and LDK.
 
