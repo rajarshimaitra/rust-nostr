@@ -38,7 +38,7 @@ This document is an outline of how these dumb servers, smart clients, and the Bi
 
 If you haven't been living under the rocks for the last 2 years, you already know the current emergence and a dire cry from the market to have "Twitter alternatives". Social media platforms that don't act against the incentives of their users.
 
-This need gave rise to alternate social media platforms like [Gab](https://gab.com/) and [Mastodon](https://mastodon.social/about). The recent announcement from the [Ex Twitter lead](https://twitter.com/jack/status/1204766078468911106?s=20) already hints that this is gonna be the next big problem to solve. So disclaimer: I don't it's an easy problem to solve, and I don't think Nostr solves it all. But it at least "has a chance".
+This need gave rise to alternate social media platforms like [Gab](https://gab.com/) and [Mastodon](https://mastodon.social/about). The recent announcement from the [Ex Twitter lead](https://twitter.com/jack/status/1204766078468911106?s=20) already hints that this is gonna be the next big problem to solve. So disclaimer: I don't say it's an easy problem to solve, and I don't think Nostr solves it all. But it at least "has a chance".
 
 
 The core problem of creating a decentralized media platform *is not technical, it's social.*
