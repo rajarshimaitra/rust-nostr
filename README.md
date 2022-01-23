@@ -5,7 +5,7 @@ A complete suite of nostr Bitcoin libraries that can be used to develop Decentra
 
 If you like the sound of it, check out the [vision](VISION.md) doc for the whole idea.
 
-This is an idea intended to be built entirely in open public from the very start. The design questions are completely open and everybody is encouraged to participate, either via code or via ideas. If you are a new rust dev there will be ton of testing works for you to help with to polish up your rust skills.
+This is an idea intended to be built entirely in open public from the very start. The design questions are completely open and everybody is encouraged to participate, either via code or via ideas. If you are a new rust dev there will be a ton of testing work for you to help with polishing up your rust skills.
 
 A [Discord server](https://discord.gg/pFZNEFtH) is created to facilitate higher bandwidth dev discussions. That's the best place to start if you are excited about this.
 
@@ -21,9 +21,9 @@ The goal of the project is to finally produce a `nostrd` binary, a `nostr-cli` c
 
 `nostr-API`: A API module that will expose all the nostr communication rules that client devs can use to build their own nostr clients. Existing nostr API library in rust is [nostr-rs](https://github.com/futurepaul/nostr-rs).
 
-`portal`: An encrypted communication protocol to facilitate subscription sharing. This will be an out of bound protocol that doesn't need to be strictly defined, or heavily security guaranteed. Inspiration can be taken from existing project like [CypherPost](https://github.com/i5hi/cypherpost) and simplified example implementation in rust will be added in this repo. But anybody is free to come up with their own custom implementation of encrypted subscription sharing, and be compatible with the whole idea. This part is the lowest priority for now. Discussion is on route with CypherPost folks to have nostr compatible version of their project, which will basically be an alternate `portal`.
+`portal`: An encrypted communication protocol to facilitate subscription sharing. This will be an out of bound protocol that doesn't need to be strictly defined, or heavily security guaranteed. Inspiration can be taken from existing project like [CypherPost](https://github.com/i5hi/cypherpost) and a simplified example implementation in rust will be added in this repo. But anybody is free to come up with their own custom implementation of encrypted subscription sharing, and be compatible with the whole idea. This part is the lowest priority for now. Discussion is on route with CypherPost folks to have nostr compatible version of their project, which will basically be an alternate `portal`.
 
-To maintain compatibility between all these parts integration tests are to be made. `nostr-cli` can include `nostr-API` to become not only a controller but a command-line nostr-client also. Then in the integration tests `nostr-cli` will use `nostr-API` to talk with `nostrd` and ensure they are always compatible with each other. These tests can be included in the Github CI pipeline to maintain consistency at each commit.
+To maintain compatibility between all these parts integration tests are to be made. `nostr-cli` can include `nostr-API` to become not only a controller but a command-line nostr-client also. Then in the integration tests `nostr-cli` will use `nostr-API` to talk to `nostrd` and ensure they are always compatible with each other. These tests can be included in the Github CI pipeline to maintain consistency at each commit.
 
 The basic guiding principles for writing code for this project are:
  - Use extensive documentation to describe all parts of the code.
