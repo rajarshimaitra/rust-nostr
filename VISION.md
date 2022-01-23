@@ -2,7 +2,7 @@
 
 Nostr is a very lightweight open protocol that "has a chance to work" (as per the project doc) as a decentralized social media platform. The protocol specs are defined in NIPs (Nostr Improvement Proposals) and can be found [here](https://github.com/fiatjaf/nostr/tree/master/nips).
 
-The basic of the protocol is a WebSocket server (called a nostr-relay) that handles and stores a very simple data structure called an [`Event`](https://github.com/fiatjaf/nostr/blob/master/nips/01.md#events-and-signatures). Which looks like the following:
+The basis of the protocol is a WebSocket server (called a nostr-relay) that handles and stores a very simple data structure called an [`Event`](https://github.com/fiatjaf/nostr/blob/master/nips/01.md#events-and-signatures). It looks like the following:
 
 ```
 {
@@ -20,7 +20,7 @@ The basic of the protocol is a WebSocket server (called a nostr-relay) that hand
 }
 ```
 
-Events are always signed (using Schnorr sigs) and they contained structured data that can have semantic meanings. A Schnorr type XOnlyPubkeys as defined in [BIP300](https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki#design) (and currently in use with Bitcoin Taproot) are used as "identities" throughout the protocol.
+Events are always signed (using Schnorr sigs) and they contain structured data that can have semantic meanings. A Schnorr type XOnlyPubkeys as defined in [BIP340](https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki#design) (and currently in use with Bitcoin Taproot) are used as "identities" throughout the protocol.
 
 A nostr-client is an APP that can talk with a nostr-relay and can subscribe to any set of events using a [`Subscription Filter`](https://github.com/fiatjaf/nostr/blob/master/nips/01.md#communication-between-clients-and-relays). The filter represents all the set of nostr `Events` that a client is interested in.
 
@@ -38,7 +38,7 @@ This document is an outline of how these dumb servers, smart clients, and the Bi
 
 If you haven't been living under the rocks for the last 2 years, you already know the current emergence and a dire cry from the market to have "Twitter alternatives". Social media platforms that don't act against the incentives of their users.
 
-This need gave rise to alternate social media platforms like [Gab](https://gab.com/) and [Mastodon](https://mastodon.social/about). The recent announcement from the [Ex Twitter lead](https://twitter.com/jack/status/1204766078468911106?s=20) already hints that this is gonna be the next big problem to solve. So disclaimer: I don't it's an easy problem to solve, and I don't think Nostr solves it all. But it at least "has a chance".
+This need gave rise to alternate social media platforms like [Gab](https://gab.com/) and [Mastodon](https://mastodon.social/about). The recent announcement from the [Ex Twitter lead](https://twitter.com/jack/status/1204766078468911106?s=20) already hints that this is gonna be the next big problem to solve. So disclaimer: I don't say it's an easy problem to solve, and I don't think Nostr solves it all. But it at least "has a chance".
 
 
 The core problem of creating a decentralized media platform *is not technical, it's social.*
@@ -50,13 +50,13 @@ Creating a social media (or chat app) is probably the most textbook challenge yo
 
 Of course, it's a lot more complex than this in real life. But the crux of this design remains the same for all social media designs out there.
 
-So why can't we just build it be done with it?
+So why can't we just build it and be done with it?
 
 The problem is, it has to be a "decentralized" system, which can only succeed via "network effects" and emerging engineering consensus over a set of protocols by the developer ecosystem. Otherwise, we create the same problem we set out to solve.
 
 And this is where things get messy. If you build your perfect social media today, how can you convince other devs to build on it? If devs don't build features, why would the users come? If users don't come what's the point of that media platform in the first place?
 
-The example of Gab and Mastodon clearly shows, that just having the code open source is not enough. The building process and designing of the standards have to be open also. Otherwise one ends up with a small team of people, mostly voluntarily working on an activist project, and eventually ends up being the "benevolent dictators" of that platform.
+The examples of Gab and Mastodon clearly show, that just having the code open source is not enough. The building process and designing of the standards have to be open also. Otherwise one ends up with a small team of people, mostly voluntarily working on an activist project, and eventually becoming the "benevolent dictators" of that platform.
 
 Because they have to satisfy real-life design constraints of such platforms, while providing their product at scale, they end up creating a small cohort of a team dedicated to designing the approach of the platform. This makes casual and fun applications using the platform difficult for client devs. At some point, they might as well decide to design their own little protocol, but eventually, they will reach the same roadblock. Nobody wants to voluntarily build on a platform that you designed for a specific niche.
 
@@ -136,7 +136,7 @@ Communication can happen via nostr text content, which is an encrypted blob of d
 The subscription for that data, along with the relay address to fetch it from, is also encrypted and shared among intended participants using any out-off-bound protocol.
 A shared decryption key can be derived using DH key exchange again via some custom out-off-bound protocol among clients.
 
-What the above describes is a privacy-focused decentralized platform to share any random data among clients, including p2p trade ads, betting with DLC, or anything else. The relays don't have any visibility on the data they are storing. And clients are smart enough to make sense of these data and act on them.
+What the above describes is a privacy-focused decentralized platform to share any random data among clients, including p2p trade ads, betting with DLC, or anything else. The relays don't have any visibility on the data they are storing. And clients are smart enough to make sense of this data and act on it.
 
 This is more than just "Social Media". It's a "Social Network" of people coordinating with each other just by agreeing on some basic protocol. `Nostr` and `Bitcoin`. Thus the name "Distributed Social Networks" (DSN).
 
@@ -177,11 +177,11 @@ The entire structure is still TBD, but a rough outline of how rust-nostr will lo
  Once all these are laid out, it's then possible to use a `rust-nostr` suit to come up with all sorts of more complex clients doing Bitcoin Defi among each other.
 
 # Concluding **Remarks**
-So far this just a primitive idea, and I don't even know what are the possible unknown challenges. I expect many. This is my attempt to chalk down a way forward to reach both Bitcoin Defi and DSNs to solve each other's problems, using a very dumb protocol, and highly intelligent clients.
+So far this just a primitive idea, and I don't even know what the possible unknown challenges are. I expect many. This is my attempt to chalk down a way forward to reach both Bitcoin Defi and DSNs to solve each other's problems, using a very dumb protocol, and highly intelligent clients.
 
 Over time I will try to sketch up a basic design of `nostrd`. The idea needs more polishing and a thorough examination of available techs and possible different approaches.
 
-IF you happen to care about this problem and feel like lending a hand, or if you have any suggestions or comments in general, hit me up at @rajarshimaitra on Twitter. DM's open.
+If you happen to care about this problem and feel like lending a hand, or if you have any suggestions or comments in general, hit me up at @rajarshimaitra on Twitter. DM's open.
 
 
 
