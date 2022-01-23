@@ -1,0 +1,26 @@
+[package]
+name = "nostrd"
+version = "0.3.3"
+edition = "2021"
+
+[dependencies]
+log = "^0.4"
+env_logger = "^0.9"
+tokio = { version = "^1.14", features = ["full"] }
+futures = "^0.3"
+futures-util = "^0.3"
+tokio-tungstenite = "^0.16"
+tungstenite = "^0.16"
+thiserror = "^1"
+uuid = { version = "^0.8", features = ["v4"] }
+config = { version = "0.11", features = ["toml"] }
+bitcoin_hashes = { version = "^0.9", features = ["serde"] }
+secp256k1 = {git = "https://github.com/rust-bitcoin/rust-secp256k1.git", rev = "50034ccb18fdd84904ab3aa6c84a12fcced33209", features = ["rand", "rand-std", "serde", "bitcoin_hashes"] }
+serde = { version = "^1.0", features = ["derive"] }
+serde_json = {version = "^1.0", features = ["preserve_order"]}
+hex = "^0.4"
+rusqlite = "^0.26"
+lazy_static = "^1.4"
+governor = "^0.4"
+nonzero_ext = "^0.3"
+hyper={ version="0.14", features=["server","http1","http2","tcp"] }
