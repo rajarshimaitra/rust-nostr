@@ -82,7 +82,7 @@ The `Event` data can be extended in the `tag` field by having more tag items def
 
 An `Events` can be thought of as a generic data store. There is no restriction on the content that can be put inside it.
 
-As odd as might seem, such a simple protocol is getting more dev attention than many of the "well designed" existing alternate social media.
+As odd as it might seem, such a simple protocol is getting more dev attention than many of the "well designed" existing alternate social media.
 
 The project already got a ton of dev interest and a rich ecosystem of [libraries, apps, relays](https://github.com/aljazceru/awesome-nostr) have been developed by the community in almost no time. And the list is growing every day.
 
@@ -100,7 +100,7 @@ People are also coming up with new extra details added on top of basic NIPs almo
 
 The simplicity of the protocol allows devs to quickly converge on the open standard, and have all the complexity on the client side. The entire app experience would be handled by clients, and relays would remain dumb data servers. This allows devs to move and iterate fast on the client apps while being compatible with any available relays.
 
-This also adds to client compatibility. It's possible to have two different apps, but still, be able to see each other's posts. The platform can be decentralized at its core, and clients become compatible with each other via a simple storage protocol. That's the neat thing with the "dumb server, smart client" model. quick agreement on rudimentary standard, faster iteration on cool client apps.
+This also adds to client compatibility. It's possible to have two different apps, but still, be able to see each other's posts. The platform can be decentralized at its core, and clients become compatible with each other via a simple storage protocol. That's the neat thing with the "dumb server, smart client" model. Quick agreement on rudimentary standard, faster iteration on cool client apps.
 
 Complexities can be customized at the client layer while interoperability is achieved at the relay layer.
 
@@ -136,7 +136,7 @@ These servers can be very lightweight as they don't need to store all the histor
 
 These servers don't need to follow any generic protocol. Can be implemented freely via any design. They just need to have a way to connect to clients and know when to notify them when something relevant to them has come.
 
-They are also censorship-resistant like nostr relay. If one goes down or stops working, anyone can spin up another one. Because they don't have to keep a historic record Switching from one server to another does not affect the overall flow of information.
+They are also censorship-resistant like nostr relay. If one goes down or stops working, anyone can spin up another one. Because they don't have to keep a historic record, switching from one server to another does not affect the overall flow of information.
 
 These servers cannot exploit the data also because all they see is an encrypted blob of randomness, so they do not need to be highly secured.
 
@@ -183,7 +183,7 @@ The entire structure is still TBD, but a rough outline of how rust-nostr will lo
  - A binary crate producing `nostrd`. A lightweight and efficient rust implementation of Nostr-Relay. `nostrd` will come with a set of supported NIPs. Basic NIPs can be included by default. Extra NIPs can be specified at build time be via feature flags.
  - A `nostr-cli` that can be used as a manager of `nostrd` on the server-side. It can also talk the nostr protocol with any other relay and can be used as a cli nostr client. Maintenance access can be provided to a relay via basic or cookie authentication.
  - A rich `nostr-API` library. Included in the project, that can be used as an easy dev tool for devs to build their nostr clients. These APIs can then be exposed via ffi to other languages and will give developers a one-stop tool to build their cool Nostr clients.
- - `portal` is an encrypted nostr subscription sharing server. Specification of `portal` is not part of the project as it is already a solved problem. This has been well understood in cryptographic literatures and lots of candidate implementation exists in open source. The Signal App itself is an example of a portal, although very difficult to use for this use case. A local team in India have been focused on this problem for specific use case of facilitating p2p Bitcoin trades called [CypherPost](https://github.com/i5hi/cypherpost), which is already a very fitting `portal` implementation. Eventually a stripped down version of a candidate implementation in rust will be added to the project repository. But people are free to develop and use their own portals and still be compatible with rest of the network.
+ - `portal` is an encrypted nostr subscription sharing server. Specification of `portal` is not part of the project as it is already a solved problem. This has been well understood in cryptographic literatures and lots of candidate implementation exists in open source. The Signal App itself is an example of a portal, although very difficult to use for this use case. A local team in India have been focused on this problem for specific use case of facilitating p2p Bitcoin trades called [CypherPost](https://github.com/i5hi/cypherpost), which is already a very fitting `portal` implementation. Eventually a stripped down version of a candidate implementation in rust will be added to the project repository. But people are free to develop and use their own portals and still be compatible with the rest of the network.
 
 All of them (except `portal`) will have native Bitcoin + Lightning integration in them via BDK and LDK.
 
