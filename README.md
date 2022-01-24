@@ -33,7 +33,7 @@ The basic guiding principles for writing code for this project are:
  - Avoid complexity at all costs. Be dumb and clear, not clever and obscured.
 
 ## Roadmap
-- [ ] basic code for `nostrd` with `sqlite`.
+- [x] basic code for `nostrd` with `sqlite`.
 - [ ] Support `mandatory` NIPs
 - [ ] Support optional NIPs
 - [ ] Cover all parts in unit tests
