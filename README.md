@@ -45,3 +45,7 @@ The basic guiding principles for writing code for this project are:
 - [ ] Define `nostr-API`
 - [ ] Implement `nostr-API` in `nostr-cli`
 - [ ] Add Bitcoin support with `BDK`
+
+
+I am maintaining a work diary for both myself and other collaborators to see what I
+am working on. Diary link [here](https://gist.github.com/rajarshimaitra/3e546f17f0d812db6d2e3ae6e0eea1bc#file-rust-nostr-diary-md)
