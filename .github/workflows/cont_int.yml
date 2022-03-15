@@ -1,0 +1,104 @@
+on: [push, pull_request]
+
+# The github continuous integration that pulls in the repo and perform
+# all checks. Posts the test coverage results to codecov.
+name: Cont_integration
+
+jobs:
+
+  # Build and run the tests
+  CI:
+    name: Running fmt, build and test
+    runs-on: ubuntu-latest
+
+    # The strategy matrix for running builds/tests
+    strategy:
+      matrix:
+        rust:
+          - version: stable # Building only for stable (TODO: set MSRV)
+        features:
+          - default
+    steps:
+
+      # Check out the git and set up cache
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: Generate cache key
+        run: echo "${{ matrix.rust.version }} ${{ matrix.features }}" | tee .cache_key
+      - name: cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('.cache_key') }}-${{ hashFiles('**/Cargo.toml','**/Cargo.lock') }}
+
+      # Set the rust toolchain
+      - name: Set default toolchain
+        run: rustup default ${{ matrix.rust.version }}
+      - name: Set profile
+        run: rustup set profile minimal
+
+      # Add required rust components
+      - name: Add clippy
+        run: rustup component add clippy
+      - name: Add rust fmt
+        run: rustup component add rustfmt
+      - name: Update toolchain
+        run: rustup update
+
+      # Perform the checks
+      - name: Check fmt
+        run: cargo fmt --features ${{ matrix.feature }} --no-default-features
+      - name: Build
+        run: cargo build --features ${{ matrix.features }} --no-default-features
+      - name: Clippy
+        if: ${{ matrix.rust.clippy }}
+        run: cargo clippy --all-targets --features ${{ matrix.features }} --no-default-features -- -D warnings
+      - name: Test
+        run: cargo test --features ${{ matrix.features }} --no-default-features
+
+  Codecov:
+
+    # Runs the code coverage report generation
+    name: Generating CodeCov
+    runs-on: ubuntu-latest
+
+    # Env variables required for codecov generation
+    env:
+      CARGO_INCREMENTAL: '0'
+      RUSTFLAGS: '-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off'
+      RUSTDOCFLAGS: '-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off'
+
+    steps:
+
+      # Checkout the repo
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Instal and setup rust
+      - name: Install rustup
+        run: curl https://sh.rustup.rs -sSf | sh -s -- -y
+      - name: Set default toolchain
+        run: rustup default nightly #Codecov requires rust nightly
+      - name: Set profile
+        run: rustup set profile minimal
+      - name: Update toolchain
+        run: rustup update
+
+      # Perform tests
+      - name: Test
+        run: cargo test
+
+      # Generate coverage report
+      - id: coverage
+        name: Generate coverage
+        uses: actions-rs/grcov@v0.1.5
+
+      # Publish coverage report to Codecov
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          file: ${{ steps.coverage.outputs.report }}
+          directory: ./coverage/reports/
