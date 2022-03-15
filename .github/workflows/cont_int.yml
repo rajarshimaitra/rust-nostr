@@ -50,9 +50,9 @@ jobs:
 
       # Perform the checks
       - name: Check fmt
-        run: cargo fmt --features ${{ matrix.feature }} --no-default-features
+        run: cargo fmt --features default
       - name: Build
-        run: cargo build --features ${{ matrix.features }} --no-default-features
+        run: echo ${{ matrix.features }}
       - name: Clippy
         if: ${{ matrix.rust.clippy }}
         run: cargo clippy --all-targets --features ${{ matrix.features }} --no-default-features -- -D warnings
