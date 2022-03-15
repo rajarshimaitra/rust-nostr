@@ -50,7 +50,7 @@ jobs:
 
       # Perform the checks
       - name: Check fmt
-        run: cargo fmt --features ${{ matrix.feature }} --no-default-features
+        run: cargo fmt --features ${{ matrix.features }} --no-default-features
       - name: Build
         run: cargo build --features ${{ matrix.features }} --no-default-features
       - name: Clippy
