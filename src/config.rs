@@ -2,6 +2,7 @@ use lazy_static::lazy_static;
 use log::*;
 use serde::{Deserialize, Serialize};
 use std::sync::RwLock;
+use secp256k1::XOnlyPublicKey;
 
 // initialize a singleton default configuration
 lazy_static! {
@@ -14,7 +15,7 @@ pub struct Info {
     pub relay_url: Option<String>,
     pub name: Option<String>,
     pub description: Option<String>,
-    pub pubkey: Option<String>,
+    pub pubkey: Option<XOnlyPublicKey>,
     pub contact: Option<String>,
 }
 
@@ -102,7 +103,7 @@ impl Default for Settings {
         Settings {
             info: Info {
                 relay_url: None,
-                name: Some("Unnamed nostr-rs-relay".to_owned()),
+                name: Some("nostrd-v0.0.1".to_owned()),
                 description: None,
                 pubkey: None,
                 contact: None,

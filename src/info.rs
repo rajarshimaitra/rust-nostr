@@ -1,6 +1,7 @@
 use crate::config;
 /// Relay Info
 use serde::{Deserialize, Serialize};
+use secp256k1::XOnlyPublicKey;
 
 const CARGO_PKG_VERSION: Option<&'static str> = option_env!("CARGO_PKG_VERSION");
 
@@ -14,7 +15,7 @@ pub struct RelayInfo {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub pubkey: Option<String>,
+    pub pubkey: Option<XOnlyPublicKey>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub contact: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -35,7 +36,7 @@ impl From<config::Info> for RelayInfo {
             pubkey: i.pubkey,
             contact: i.contact,
             supported_nips: Some(vec![1, 2, 11]),
-            software: Some("https://git.sr.ht/~gheartsfield/nostr-rs-relay".to_owned()),
+            software: Some("https://github.com/rajarshimaitra/rust-nostr".to_owned()),
             version: CARGO_PKG_VERSION.map(|x| x.to_owned()),
         }
     }

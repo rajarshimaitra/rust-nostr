@@ -18,7 +18,7 @@ lazy_static! {
     pub static ref SECP: Secp256k1<VerifyOnly> = Secp256k1::verification_only();
 }
 
-/// A sha256 has denoting unique id for an Event
+/// A sha256 hash denoting unique id for an Event
 pub type EventId = sha256::Hash;
 
 /// An event kind as per NIP01 https://github.com/fiatjaf/nostr/blob/master/nips/01.md#basic-event-kinds
@@ -165,7 +165,7 @@ impl Event {
     ///    <kind, as a number>,
     ///    <tags, as an array of arrays>,
     ///    <content>, as a string
-    ///]
+    /// ]
     pub fn compute_event_id(&self) -> Result<EventId, Error> {
         // create a JsonValue for each event element
         let mut c: Vec<Value> = vec![];

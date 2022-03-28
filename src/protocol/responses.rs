@@ -2,7 +2,7 @@ use super::event::Event;
 use serde::ser::SerializeSeq;
 use serde::Serialize;
 
-/// An Event Response message sent by the relay to client
+/// An Event Response message sent by the relay to the client
 #[derive(Debug, PartialEq, Clone)]
 pub struct EventResp {
     subscription_id: String,
@@ -32,7 +32,7 @@ impl EventResp {
     }
 }
 
-/// A Notice Response Message send to client from relay
+/// A Notice Response Message send to the client from the relay
 #[derive(Debug, PartialEq, Clone)]
 pub struct NoticeResp {
     message: String,
