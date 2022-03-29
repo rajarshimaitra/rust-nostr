@@ -1,7 +1,7 @@
 use crate::config;
+use secp256k1::XOnlyPublicKey;
 /// Relay Info
 use serde::{Deserialize, Serialize};
-use secp256k1::XOnlyPublicKey;
 
 const CARGO_PKG_VERSION: Option<&'static str> = option_env!("CARGO_PKG_VERSION");
 

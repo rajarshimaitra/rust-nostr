@@ -147,7 +147,7 @@ pub mod subscription {
     pub const SUBS: &str = r##"
     [
         "REQ",
-        "subscription_id",
+        "5419ad84da0a358e474b8d58ed2f00d8ba42097481acf665f444d901a92758aa",
         {
             "ids": [
                 "5419ad84da0a358e474b8d58ed2f00d8ba42097481acf665f444d901a92758aa"
@@ -173,7 +173,7 @@ pub mod subscription {
     pub const ID_SUBS: &str = r##"
     [
         "REQ",
-        "subscription_id",
+        "5419ad84da0a358e474b8d58ed2f00d8ba42097481acf665f444d901a92758aa",
         {
             "ids": [
                 "5419ad84da0a358e474b8d58ed2f00d8ba42097481acf665f444d901a92758aa",
@@ -187,7 +187,7 @@ pub mod subscription {
     pub const AUTHORS_SUBS: &str = r##"
     [
         "REQ",
-        "subscription_id",
+        "5419ad84da0a358e474b8d58ed2f00d8ba42097481acf665f444d901a92758aa",
         {
             "authors": [
                 "5ac9d737d7f18933967a065b007afe63e03ce9c83bd0da4c491c0810f597d2dd",
@@ -201,7 +201,7 @@ pub mod subscription {
     pub const KINDS_SUBS: &str = r##"
     [
         "REQ",
-        "subscription_id",
+        "5419ad84da0a358e474b8d58ed2f00d8ba42097481acf665f444d901a92758aa",
         {
             "kinds": [
                 0,
@@ -215,7 +215,7 @@ pub mod subscription {
     pub const SINCE_SUBS: &str = r##"
     [
         "REQ",
-        "subscription_id",
+        "5419ad84da0a358e474b8d58ed2f00d8ba42097481acf665f444d901a92758aa",
         {
             "since": 1642540500
         }
@@ -225,7 +225,7 @@ pub mod subscription {
     pub const UNTIL_SUBS: &str = r##"
     [
         "REQ",
-        "subscription_id",
+        "5419ad84da0a358e474b8d58ed2f00d8ba42097481acf665f444d901a92758aa",
         {
             "until": 1642540800
         }
@@ -235,7 +235,7 @@ pub mod subscription {
     pub const EVENT_TAGS_SUBS: &str = r##"
     [
         "REQ",
-        "subscription_id",
+        "5419ad84da0a358e474b8d58ed2f00d8ba42097481acf665f444d901a92758aa",
         {
             "#e": [
                 "5419ad84da0a358e474b8d58ed2f00d8ba42097481acf665f444d901a92758aa",
@@ -249,7 +249,7 @@ pub mod subscription {
     pub const PUBKEY_TAGS_SUBS: &str = r##"
     [
         "REQ",
-        "subscription_id",
+        "5419ad84da0a358e474b8d58ed2f00d8ba42097481acf665f444d901a92758aa",
         {
             "#p": [
                 "859d23503e69157eb3e22bc225687d33b6ab514ae53602e99d7d75b59393e62d",

@@ -6,12 +6,13 @@ use serde::{ser::SerializeSeq, Deserialize, Serialize};
 use serde_json::Value;
 
 use super::event::Event;
+use super::SubscriptionId;
 
 /// Close command parsed
 #[derive(PartialEq, Debug, Clone)]
 pub struct Close {
     /// The subscription identifier being closed.
-    pub id: String,
+    pub id: SubscriptionId,
 }
 
 impl Serialize for Close {
@@ -134,7 +135,7 @@ mod test {
 
     #[test]
     fn close_command() {
-        let close = r#"["CLOSE","subscriptiuon id"]"#;
+        let close = r#"["CLOSE","5436cab31e64e4f2cbd6216a68d95369210174fa4a82e77d09184aa51806de60"]"#;
         let close1: Close = serde_json::from_str(close).unwrap();
         let ser_close1 = serde_json::to_string(&close1).unwrap();
         assert_eq!(ser_close1, close);

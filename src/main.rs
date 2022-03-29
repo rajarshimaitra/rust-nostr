@@ -298,7 +298,7 @@ async fn nostr_server(
                                global_event.get_short_event_id());
                         // create an event response and send it
                         let event = Event::from_str(&event_str).unwrap();
-                        nostr_stream.send(NostrResponse::new_event(s, &event)).await.ok();
+                        nostr_stream.send(NostrResponse::new_event(s.to_string().as_ref(), &event)).await.ok();
                     } else {
                         warn!("could not convert event to string");
                     }
@@ -325,7 +325,7 @@ async fn nostr_server(
                         let (abandon_query_tx, abandon_query_rx) = oneshot::channel::<()>();
                         match conn.subscribe(s.clone()) {
                             Ok(()) => {
-                                running_queries.insert(s.get_id().to_owned(), abandon_query_tx);
+                                running_queries.insert(s.get_id().to_string(), abandon_query_tx);
                                 // start a database query
                                 db::db_query(s, query_tx.clone(), abandon_query_rx).await;
                             },
@@ -340,7 +340,7 @@ async fn nostr_server(
                         // closing a request simply removes the subscription.
                         // check if a query is currently
                         // running, and remove it if so.
-                        let stop_tx = running_queries.remove(&close.id);
+                        let stop_tx = running_queries.remove(&close.id.to_string());
                         if let Some(tx) = stop_tx {
                             tx.send(()).ok();
                         }

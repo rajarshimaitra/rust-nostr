@@ -8,4 +8,4 @@ mod testvec;
 pub use commands::{Close, EventCmd};
 pub use event::Event;
 pub use responses::{EventResp, NoticeResp};
-pub use subscription::Subscription;
+pub use subscription::{Subscription, SubscriptionId};

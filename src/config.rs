@@ -1,8 +1,8 @@
 use lazy_static::lazy_static;
 use log::*;
+use secp256k1::XOnlyPublicKey;
 use serde::{Deserialize, Serialize};
 use std::sync::RwLock;
-use secp256k1::XOnlyPublicKey;
 
 // initialize a singleton default configuration
 lazy_static! {

@@ -4,7 +4,7 @@ use crate::error::Result;
 use crate::protocol::Close;
 use crate::protocol::Event;
 
-use crate::protocol::Subscription;
+use crate::protocol::{Subscription, SubscriptionId};
 use log::*;
 use std::collections::HashMap;
 use uuid::Uuid;
@@ -17,7 +17,7 @@ pub struct ClientConn {
     /// Unique client identifier generated at connection time
     client_id: Uuid,
     /// The current set of active client subscriptions
-    subscriptions: HashMap<String, Subscription>,
+    subscriptions: HashMap<SubscriptionId, Subscription>,
     /// Per-connection maximum concurrent subscriptions
     max_subs: usize,
 }
@@ -46,8 +46,8 @@ impl ClientConn {
     }
 
     /// Find all matching subscriptions.
-    pub fn get_matching_subscriptions(&self, e: &Event) -> Vec<&str> {
-        let mut v: Vec<&str> = vec![];
+    pub fn get_matching_subscriptions(&self, e: &Event) -> Vec<&SubscriptionId> {
+        let mut v: Vec<&SubscriptionId> = vec![];
         for (id, sub) in self.subscriptions.iter() {
             if sub.interested_in_event(e) {
                 v.push(id);
@@ -58,8 +58,8 @@ impl ClientConn {
 
     /// Add a new subscription for this connection.
     pub fn subscribe(&mut self, s: Subscription) -> Result<()> {
-        let k = s.get_id().clone();
-        let sub_id_len = k.len();
+        let subs_id = s.get_id().clone();
+        let sub_id_len = subs_id.len();
         // prevent arbitrarily long subscription identifiers from
         // being used.
         if sub_id_len > MAX_SUBSCRIPTION_ID_LEN {
@@ -70,9 +70,9 @@ impl ClientConn {
             return Err(Error::SubIdMaxLengthError);
         }
         // check if an existing subscription exists, and replace if so
-        if self.subscriptions.contains_key(k) {
-            self.subscriptions.remove(k);
-            self.subscriptions.insert(k.to_string(), s);
+        if self.subscriptions.contains_key(&subs_id) {
+            self.subscriptions.remove(&subs_id);
+            self.subscriptions.insert(subs_id, s);
             debug!("replaced existing subscription");
             return Ok(());
         }
@@ -82,7 +82,7 @@ impl ClientConn {
             return Err(Error::SubMaxExceededError);
         }
         // add subscription
-        self.subscriptions.insert(k.to_string(), s);
+        self.subscriptions.insert(subs_id, s);
         debug!(
             "registered new subscription, currently have {} active subs",
             self.subscriptions.len()

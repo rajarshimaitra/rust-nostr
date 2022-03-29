@@ -1,16 +1,15 @@
 //! Subscription and filter parsing
 use super::event::{Event, EventId, EventKind};
+use super::tags::{Tag, TagType};
 use crate::error::Result;
+use bitcoin_hashes::{sha256, Hash};
+use secp256k1::XOnlyPublicKey;
 use serde::de::Unexpected;
 use serde::ser::SerializeSeq;
 use serde::{Deserialize, Deserializer, Serialize};
-use std::collections::HashSet;
-
 use serde_json::Value;
-
-use secp256k1::XOnlyPublicKey;
-
-use super::tags::{Tag, TagType};
+use std::collections::HashSet;
+use std::str::FromStr;
 
 /// A Request Filter as per NIP01 https://github.com/fiatjaf/nostr/blob/master/nips/01.md#communication-between-clients-and-relays
 ///
@@ -36,10 +35,13 @@ pub struct ReqFilter {
     pub authors: Option<Vec<XOnlyPublicKey>>,
 }
 
+// A sha256 hash denoting unique identifier for a subscription request
+pub type SubscriptionId = sha256::Hash;
+
 /// Subscription defining a set of [`ReqFilter`]
 #[derive(PartialEq, Debug, Clone)]
 pub struct Subscription {
-    id: String,
+    id: SubscriptionId,
     filters: Vec<ReqFilter>,
 }
 
@@ -92,10 +94,9 @@ impl<'de> Deserialize<'de> for Subscription {
             let filters: Vec<ReqFilter> =
                 serde_json::from_value(Value::Array(received[2..].to_vec()))
                     .map_err(|e| serde::de::Error::custom(e.to_string()))?;
-            Ok(Self {
-                id: id.clone(),
-                filters,
-            })
+            let id = SubscriptionId::from_str(&id)
+                .map_err(|e| serde::de::Error::custom(e.to_string()))?;
+            Ok(Self { id, filters })
         } else {
             Err(serde::de::Error::invalid_type(
                 Unexpected::Other("json type in subscription id"),
@@ -107,7 +108,7 @@ impl<'de> Deserialize<'de> for Subscription {
 
 impl Subscription {
     /// Get the subscription id
-    pub fn get_id(&self) -> &str {
+    pub fn get_id(&self) -> &SubscriptionId {
         &self.id
     }
 
@@ -122,6 +123,12 @@ impl Subscription {
         self.filters
             .iter()
             .any(|filter| filter.interested_in_event(event))
+    }
+
+    /// Calculate unique Subscription ID for given subscription
+    pub fn calculate_id(&self) -> Result<sha256::Hash> {
+        let canonical_string = serde_json::to_string(&serde_json::to_value(&self.filters)?)?;
+        Ok(SubscriptionId::hash(canonical_string.as_bytes()))
     }
 }
 
