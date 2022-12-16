@@ -60,19 +60,19 @@ The examples of Gab and Mastodon clearly show, that just having the code open so
 
 Because they have to satisfy real-life design constraints of such platforms, while providing their product at scale, they end up creating a small cohort of a team dedicated to designing the approach of the platform. This makes casual and fun applications using the platform difficult for client devs. At some point, they might as well decide to design their little protocol, but eventually, they will reach the same roadblock. Nobody wants to voluntarily build on a platform that you designed for a specific niche.
 
-Also storing data is costly. It takes resource, maintenance, and time for the part of the "server owner". All the people currently hosting a Mastodon instance are doing it voluntarily and users just rely on them for being nice and not shut down the instance. The age-old problem of "creative commons" appears.
+Also storing data is costly. It takes resources, maintenance, and time on the part of the "server owner". All the people currently hosting a Mastodon instance are doing it voluntarily and users just rely on them for being nice and not shut down the instance. The age-old problem of "creative commons" appears.
 
 So can we do better?
 
 # An Alternate Approach, The Dumb Nostr Way
 
-What if instead of building the perfect social media, we just build the most basic lego it needs to create such things and let developer consensus emerge in open over this basic standard unit of the puzzle.
+What if instead of building the perfect social media, we just build the most basic lego it needs to create such things and let developer consensus emerge in open over this basic standard unit of the puzzle?
 
 This is what Nostr does.
 
 To do this it takes the following approach.
 
-Specify the smallest unit of a social data format (an `Event`), and let agreement emerge naturally among devs to build on this. This defines the core of the protocol. The bare minimum backbone of things that everyone needs to agree on, to be part of this network.
+Specify the smallest unit of a social data format (an `Event`), and let agreement emerge naturally among devs to build on this. This defines the core of the protocol. The bare minimum backbone of things that everyone needs to agree on, is to be part of this network.
 
 Nostr defines these protocol rules as NIPs. And mentions a set of `mandatory` NIPs. Rules that need to be implemented to talk the Nostr protocol.
 
@@ -82,7 +82,7 @@ The `Event` data can be extended in the `tag` field by having more tag items def
 
 An `Events` can be thought of as a generic data store. There is no restriction on the content that can be put inside it.
 
-As odd as it might seem, such a simple protocol is getting more dev attention than many of the "well designed" existing alternate social media.
+As odd as it might seem, such a simple protocol is getting more dev attention than many of the "well-designed" existing alternate social media.
 
 The project already got a ton of dev interest and a rich ecosystem of [libraries, apps, relays](https://github.com/aljazceru/awesome-nostr) have been developed by the community in almost no time. And the list is growing every day.
 
@@ -100,13 +100,13 @@ People are also coming up with new extra details added on top of basic NIPs almo
 
 The simplicity of the protocol allows devs to quickly converge on the open standard, and have all the complexity on the client side. The entire app experience would be handled by clients, and relays would remain dumb data servers. This allows devs to move and iterate fast on the client apps while being compatible with any available relays.
 
-This also adds to client compatibility. It's possible to have two different apps, but still, be able to see each other's posts. The platform can be decentralized at its core, and clients become compatible with each other via a simple storage protocol. That's the neat thing with the "dumb server, smart client" model. Quick agreement on rudimentary standard, faster iteration on cool client apps.
+This also adds to client compatibility. It's possible to have two different apps, but still, be able to see each other's posts. The platform can be decentralized at its core, and clients become compatible with each other via a simple storage protocol. That's the neat thing with the "dumb server, smart client" model. Quick agreement on rudimentary standards, and faster iteration on cool client apps.
 
 Complexities can be customized at the client layer while interoperability is achieved at the relay layer.
 
 # The Missing Pieces
 
-Once we converge on what the core lego looks like. The remaining pieces are DOS protection, relay incentivization and some ways to communicate nostr subscription data between users.
+Once we converge on what the core lego looks like. The remaining pieces are DOS protection, relay incentivization, and some ways to communicate nostr subscription data between users.
 
 ### Putting Bitcoin inside Nostr
 
@@ -122,17 +122,17 @@ This gives a good way for high-maintenance public relays to monetize their servi
 
 ### E2E Encrypted Subscription Sharing
 
-Remember, a Nostr relay is just a dump of simple JSON data. Fetched via a `subscription` filter. This allows nostr to be a generic data-sharing platform between clients. With Bitcoin inside, now we are talking about Bitcoin scripts, descriptors, DLC contracts, and other Bitcoin DeFi information, shared via the nostr relay network. But these can be sensitive information, and should not be shared on a public platform in cleartext.
+Remember, a Nostr relay is just a dump of simple JSON data. Fetched via a `subscription` filter. This allows nostr to be a generic data-sharing platform between clients. With Bitcoin inside, now we are talking about Bitcoin scripts, descriptors, DLC contracts, and other Bitcoin DeFi information, shared via the nostr relay network. But this can be sensitive information, and should not be shared on a public platform in cleartext.
 
 For this, an encrypted nostr subscription sharing mechanism is required. This can be another server facilitating only encrypted subscription data sharing among participants.
 
-This can be achieved by following:
+This can be achieved by the following:
  - Encrypt the [`subscription` + `relay-address`] using a DH shared secret derived from the pubkey of the intended receiver.
  - Post the encrypted data along with the pubkey of the recipient to this server.
  - Recipient client gets notification, downloads and decrypts the data, gets the subscription to fetch the actual data from nostr.
  - The actual data is also a ciphertext encrypted by the same shared secret so the recipient knows how to decrypt that too.
 
-These servers can be very lightweight as they don't need to store all the historical subscription data. They can regularly clear old data, or even can clear it in real-time when it knows the recipient has downloaded it. This will make them very low cost, and it doesn't need to solve the incentivization problem.
+These servers can be very lightweight as they don't need to store all the historical subscription data. They can regularly clear old data, or even can clear it in real-time when it knows the recipient has downloaded it. This will make them very low-cost, and it doesn't need to solve the incentivization problem.
 
 These servers don't need to follow any generic protocol. Can be implemented freely via any design. They just need to have a way to connect to clients and know when to notify them when something relevant to them has come.
 
@@ -157,7 +157,7 @@ Data related to all these pubkeys will remain completely unrelated and can be di
 The final summarised model is:
  - A Highly interoperable and extremely simple relay protocol, nostr.
  - A flexible framework for adding new relay features using `optional` upgrades that relays can opt-in.
- - A encrypted subscription sharing mechanism to pass around nostr subscriptions.
+ - An encrypted subscription sharing mechanism to pass around nostr subscriptions.
  - Bitcoin native integration to facilitate the "internet of money" and DOS protection at the same time.
  - A decentralized publication layer for clients to publish public as well as private content.
  - Client-side complexity to interpret these contents and have native financial contract generation UI using the powers of Bitcoin.
@@ -168,7 +168,7 @@ And unlike everything web3.0, this doesn't involve another "Blockchain" (bummer,
 
 As good as it may sound, we are not there yet. And a lot of engineering designs are required to realize these dreams. There are unknown problems ahead that need to be dealt with. The design decision of these relays and clients needs to be carefully laid out. Just having a simple protocol is not good enough.
 
-These relays should be efficient, robust, rigorously peer-reviewed in open public, guaranteed at the basic level of security. The work has to be done in open public, and the elements should be designed to be as flexible as possible to satisfy diverse client developer needs.
+These relays should be efficient, robust, rigorously peer-reviewed in the open public, and guaranteed at the basic level of security. The work has to be done in the open public, and the elements should be designed to be as flexible as possible to satisfy diverse client developer needs.
 
 If this thing needs to extend out into professional services that people can deploy in their servers, and serious products are built out of it, we need more than just hobby codes and example apps.
 
@@ -183,7 +183,7 @@ The entire structure is still TBD, but a rough outline of how rust-nostr will lo
  - A binary crate producing `nostrd`. A lightweight and efficient rust implementation of Nostr-Relay. `nostrd` will come with a set of supported NIPs. Basic NIPs can be included by default. Extra NIPs can be specified at build time be via feature flags.
  - A `nostr-cli` that can be used as a manager of `nostrd` on the server-side. It can also talk the nostr protocol with any other relay and can be used as a cli nostr client. Maintenance access can be provided to a relay via basic or cookie authentication.
  - A rich `nostr-API` library. Included in the project, that can be used as an easy dev tool for devs to build their nostr clients. These APIs can then be exposed via ffi to other languages and will give developers a one-stop tool to build their cool Nostr clients.
- - `portal` is an encrypted nostr subscription sharing server. Specification of `portal` is not part of the project as it is already a solved problem. This has been well understood in cryptographic literatures and lots of candidate implementation exists in open source. The Signal App itself is an example of a portal, although very difficult to use for this use case. A local team in India have been focused on this problem for specific use case of facilitating p2p Bitcoin trades called [CypherPost](https://github.com/i5hi/cypherpost), which is already a very fitting `portal` implementation. Eventually a stripped down version of a candidate implementation in rust will be added to the project repository. But people are free to develop and use their own portals and still be compatible with the rest of the network.
+ - `portal` is an encrypted nostr subscription sharing server. Specification of `portal` is not part of the project as it is already a solved problem. This has been well understood in cryptographic literatures and lots of candidate implementation exists in open source. The Signal App itself is an example of a portal, although very difficult to use for this use case. A local team in India has been focused on this problem for a specific use case of facilitating p2p Bitcoin trades called [CypherPost](https://github.com/i5hi/cypherpost), which is already a very fitting `portal` implementation. Eventually, a stripped-down version of a candidate implementation in rust will be added to the project repository. But people are free to develop and use their own portals and still be compatible with the rest of the network.
 
 All of them (except `portal`) will have native Bitcoin + Lightning integration in them via BDK and LDK.
 
