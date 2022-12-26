@@ -6,7 +6,7 @@ The basis of the protocol is a WebSocket server (called a nostr-relay) that hand
 
 ```
 {
-  "id": <32-bytes sha256 of the the serialized event data>
+  "id": <32-bytes sha256 of the serialized event data>
   "pubkey": <32-bytes hex-encoded public key of the event creator>,
   "created_at": <unix timestamp in seconds>,
   "kind": <integer>,
@@ -20,9 +20,9 @@ The basis of the protocol is a WebSocket server (called a nostr-relay) that hand
 }
 ```
 
-Events are always signed (using Schnorr sigs) and they contain structured data that can have semantic meanings. A Schnorr type XOnlyPubkeys as defined in [BIP340](https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki#design) (and currently in use with Bitcoin Taproot) are used as "identities" throughout the protocol.
+Events are always signed (using Schnorr sigs) and they contain structured data that can have semantics. A Schnorr type XOnlyPubkeys as defined in [BIP340](https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki#design) (and currently in use with Bitcoin Taproot) are used as "identities" throughout the protocol.
 
-A nostr-client is an APP that can talk with a nostr-relay and can subscribe to any set of events using a [`Subscription Filter`](https://github.com/fiatjaf/nostr/blob/master/nips/01.md#communication-between-clients-and-relays). The filter represents all the set of nostr `Events` that a client is interested in.
+A nostr-client is an APP that can talk with a nostr-relay and can subscribe to any set of events using a [`Subscription Filter`](https://github.com/fiatjaf/nostr/blob/master/nips/01.md#communication-between-clients-and-relays). The filter represents the set of nostr `Events` that a client is interested in.
 
 There is no sign-up or account creation for a client. Clients are identified with their pubkeys. Every time a client connects to a relay, it submits its subscription filters and the relay streams the "interested events" to the client as long as they are connected.
 
@@ -32,7 +32,7 @@ Clients don't talk to each other. But relays can. This allows relays to fetch da
 
 This at first glance gives the image of the uselessness of Nostr as a protocol, (why not just sign and dump raw JSON and let clients figure it out?), but on a deeper look, the "dumb-server, smart client" model can be found to have some massive engineering benefits, especially in decentralized protocol designs.
 
-This document is an outline of how these dumb servers, smart clients, and the Bitcoin network, e2e encryption can come together to solve the problem of "Decentralized Social Networks", DSNs (a buzzword I just came up with).
+This document is an outline of how these dumb servers, smart clients, the Bitcoin network and e2e encryption can come together to solve the problem of "Decentralized Social Networks", DSNs (a buzzword I just came up with).
 
 # The Problem Statement
 
