@@ -1,6 +1,6 @@
 # Nostr, a Basic tour
 
-Nostr is a very lightweight open protocol that "has a chance to work" (as per the project doc) as a decentralized social media platform. The protocol specs are defined in NIPs (Nostr Improvement Proposals) and can be found [here](https://github.com/fiatjaf/nostr/tree/master/nips).
+Nostr is a very lightweight open protocol that "has a chance to work" (as per the project doc) as a decentralized social media platform. The protocol specs are defined in NIPs (Nostr Improvement Proposals) and can be found [here](https://github.com/nostr-protocol/nips).
 
 The basis of the protocol is a WebSocket server (called a nostr-relay) that handles and stores a very simple data structure called an [`Event`](https://github.com/fiatjaf/nostr/blob/master/nips/01.md#events-and-signatures). It looks like the following:
 
